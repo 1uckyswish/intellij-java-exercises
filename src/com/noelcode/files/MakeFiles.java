@@ -1,26 +1,22 @@
 package com.noelcode.files;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.Scanner;
 
 public class MakeFiles {
     public static void main(String[] args) {
         File file = createFile("src/boo.txt");
-        try{
-            FileWriter fileWriter = new FileWriter(file, true);
-            PrintWriter writer = new PrintWriter(fileWriter);
-            writer.println("Noel");
-            writer.println("");
-            writer.println("loves code");
-            writer.flush(); //flush it to the file
-            writer.close(); // close the writer
-        }catch(IOException e){
+        writeToFile(file, false);
+        try {
+            Scanner scanner = new Scanner(file);
+            while(scanner.hasNext()){
+                System.out.println(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
+//            throw new RuntimeException(e);
         }
     }
-
 
     private static File createFile(String path) {
         try{
@@ -35,4 +31,17 @@ public class MakeFiles {
             throw new IllegalStateException();
         }
     }
+
+    private static void writeToFile(File file, boolean append){
+        try{
+            FileWriter fileWriter = new FileWriter(file, append);
+            PrintWriter writer = new PrintWriter(fileWriter);
+            writer.println("2020 is the worst year");
+            writer.flush(); //flush it to the file
+            writer.close(); // close the writer
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
